@@ -2,13 +2,8 @@
 
 SuperFold is a derivative of [AlphaFold2](https://github.com/deepmind/alphafold), AlphaFold-Multimer, and [ColabFold](https://github.com/sokrypton/ColabFold) with some novel improvements. 
 It is intended only for running single-sequence predictions very quickly and takes advantage of some time and memory saving hacks
-found by [krypton](https://github.com/sokrypton) and others in the community. This package is also intended only for use by IPD labs and was 
-written with our computing resources (digs, janelia, perlmutter, hyak [todo]) in mind. 
-
-Any publication that discloses findings arising from using this source code should contact the contributors for 
-citation or authorhip agreements, as some relevant code (for instance, the `initial_guess` functionality) may 
-need to be published beforehand or concurrently since they constitute novel work.
-
+found by [krypton](https://github.com/sokrypton) and others in the community. This package is intended for use by IPD labs and was 
+written with our computing resources (digs, janelia, perlmutter) in mind. 
 
 
 ## Usage
@@ -17,7 +12,7 @@ TODO
 
 ## Installation
 
-1) Download this git repo `$git clone git@github.com:rdkibler/superfold.git`
+1) Download this git repo `$git clone git@github.com:rdkibler/superfold_public.git`
 2) `$cd superfold`
 3) [Download the alphafold weights](#model-parameters) or find an existing path to the weights
 4) `$realpath /path/to/alphafold_weights/ > alphafold_weights.pth`. "params/" should be a child dir of the alphafold_weights dir
@@ -30,18 +25,16 @@ of silent_tools, so you could remove the pyrosetta line from the .yml and be fin
 8) `$pip install absl-py dm-tree tensorflow ml-collections`
 9) `$pip install --upgrade "jax[cuda]" -f https://storage.googleapis.com/jax-releases/jax_releases.html`
 10) `$pip install dm-haiku 
+11) All the work is done by the `run_superfold.py` script and this is done by running the `superfold` script. The only job of the `superfold` script is to choose the path to the correct python interpreter. You could edit this file to run on your system(s), or `conda activate pyroml` prior to running `python run_superfold.py`. This is equivalent, but I don't like activating conda envionments if I don't need to.  
 
 ### Model parameters
 
-While the AlphaFold code is licensed under the Apache 2.0 License, the AlphaFold
-parameters are made available for non-commercial use only under the terms of the
-CC BY-NC 4.0 license. Please see the [Disclaimer](#license-and-disclaimer) below
-for more detail.
+The AlphaFold code and parameters are licensed by DeepMind. Please visit the 
+original repo for details. 
 
 The AlphaFold parameters are available from
-https://storage.googleapis.com/alphafold/alphafold_params_2021-10-27.tar, and
-are downloaded as part of the `scripts/download_all_data.sh` script. This script
-will download parameters for:
+https://storage.googleapis.com/alphafold/alphafold_params_2021-10-27.tar. This file
+contains:
 
 *   5 models which were used during CASP14, and were extensively validated for
     structure prediction quality (see Jumper et al. 2021, Suppl. Methods 1.12
@@ -52,8 +45,8 @@ will download parameters for:
 *   5 AlphaFold-Multimer models that produce pTM and PAE values alongside their
     structure predictions.
 
-Place a path to the directory containing the model parameters in a file called
-`alphafold_weights.pth`
+Download and extract this file and place a path to the directory containing the 
+model parameters in a file called `alphafold_weights.pth`
 
 ### SuperFold output
 
@@ -135,30 +128,3 @@ We thank all their contributors and maintainers!
 This is not an officially supported Google product.
 
 Copyright 2021 DeepMind Technologies Limited.
-
-### AlphaFold Code License
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at https://www.apache.org/licenses/LICENSE-2.0.
-
-Unless required by applicable law or agreed to in writing, software distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-CONDITIONS OF ANY KIND, either express or implied. See the License for the
-specific language governing permissions and limitations under the License.
-
-### Model Parameters License
-
-The AlphaFold parameters are made available for non-commercial use only, under
-the terms of the Creative Commons Attribution-NonCommercial 4.0 International
-(CC BY-NC 4.0) license. You can find details at:
-https://creativecommons.org/licenses/by-nc/4.0/legalcode
-
-### Third-party software
-
-Use of the third-party software, libraries or code referred to in the
-[Acknowledgements](#acknowledgements) section above may be governed by separate
-terms and conditions or license provisions. Your use of the third-party
-software, libraries or code is subject to any such terms and you should check
-that you can comply with any applicable restrictions or terms and conditions
-before use.
