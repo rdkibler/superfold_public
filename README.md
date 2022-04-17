@@ -1,14 +1,39 @@
 # SuperFold
 
 SuperFold is a derivative of [AlphaFold2](https://github.com/deepmind/alphafold), AlphaFold-Multimer, and [ColabFold](https://github.com/sokrypton/ColabFold) with some novel improvements. 
-It is intended only for running single-sequence predictions very quickly and takes advantage of some time and memory saving hacks
-found by [krypton](https://github.com/sokrypton) and others in the community. This package is intended for use by IPD labs and was 
-written with our computing resources (digs, janelia, perlmutter) in mind. 
+It is intended only for running single-sequence predictions (no MSA) very quickly and takes advantage 
+of some time and memory saving hacks found by [krypton](https://github.com/sokrypton) and others in the community. 
+This package is intended for use by IPD labs and was written with our computing resources 
+(digs, janelia, perlmutter) in mind. 
 
 
 ## Usage
 
-TODO
+For details on available functions, please refer to the help message (`./superfold --help`)
+
+Basic AlphaFold2 prediction. This will run all 5 AF2-Monomer models with 3 recycles and generate 5 outputs.
+`./superfold /path/to/input.pdb`
+
+The script can accept any number of pdb or fasta files listed one after another separated by spaces. 
+If pdb files are supplied, it will automatically calculate RMSD of the prediction to the input using 
+pymol `align` with 0 cycles. N.B. if your input file contains more than one chain with different 
+sequences (a hetero-oligomer), the RMSD calculations will be inaccurate unless you add the 
+`--simple_rmsd` flag. Additionally, a separate pdb file may be supplied with the 
+`--reference_pdb /path/to/ref.pdb` flag and RMSD calculations will be performed to this structure as 
+well using pymol `super` with 0 cycles. 
+
+To run with more recycles, which are useful for predictions of large multi-domain or multi-chain proteins:
+`./superfold /path/to/input.pdb --max_recycles 6` 
+or whichever number you like. Small de novo proteins can often get away with 0 or 1 recycles. This param
+is named `max_recycles` because superfold has limited early-stopping capabilities when used with the 
+`--recycle_tol <float>` flag. This will cause the script to stop early if the prediction has converged, 
+meaning that the RMSD between the current prediction and the previous (`tol` in the Prediction Results 
+file) is less than the value supplied to `--recycle_tol`.
+
+To use the Multimer Model:
+`./superfold /path/to/input.pdb --type multimer --version multimer`
+The Multimer models were not particular useful for predictions not using MSAs before the Multimer
+update. I don't know if the update has impoved this or not. 
 
 ## Installation
 
@@ -113,6 +138,7 @@ and packages:
 *   [OpenStructure](https://openstructure.org)
 *   [pandas](https://pandas.pydata.org/)
 *   [pymol3d](https://github.com/avirshup/py3dmol)
+*   PyMol
 *   [SciPy](https://scipy.org)
 *   [Sonnet](https://github.com/deepmind/sonnet)
 *   [TensorFlow](https://github.com/tensorflow/tensorflow)
