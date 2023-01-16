@@ -119,7 +119,8 @@ The contents of each output file are as follows:
 ### Code contributors
 
 *   Ryan Kibler
-TODO finish contributors lol
+*   Adam Broerman
+*   Phil Leung
 
 ### 3rd party libraries and packages
 SuperFold communicates with and/or references the following separate libraries
